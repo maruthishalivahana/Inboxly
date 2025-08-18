@@ -2,22 +2,13 @@ import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
-import mongoose from "mongoose";
+import connectDB from "./config/db.js";
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => {
-    console.log("MongoDB connected");
-})
-.catch((error) => {
-    console.error("MongoDB connection error:", error);
-});
+connectDB();
 
 const app = express();
 
