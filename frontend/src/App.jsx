@@ -1,19 +1,17 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Profile from "./Components/Profile.jsx";
+import React, { useState } from 'react';
+import WelcomeScreen from './pages/Welcome.jsx';
+import LandingPage from './pages/Landing.jsx';
 
+export default function App() {
+  const [currentView, setCurrentView] = useState('welcome');
 
+  const handleGetStarted = () => {
+    setCurrentView('landing');
+  };
 
-function App() {
-  return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/profile">Profile</Link>
-      </nav>
-      <Routes>
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  if (currentView === 'welcome') {
+    return <WelcomeScreen onGetStarted={handleGetStarted} />;
+  }
+
+  return <LandingPage />;
 }
-
-export default App;
