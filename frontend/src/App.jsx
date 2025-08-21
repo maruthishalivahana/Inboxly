@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Profile from "./Components/Profile.jsx";
+import Profile from "/Components/Profile.jsx";
 
 
 
