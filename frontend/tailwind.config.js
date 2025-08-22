@@ -3,9 +3,18 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./Components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        ink: '#000000',
+        navyDeep: '#14213D',
+        accent: '#FCA311',
+        grayLight: '#E5E5E5',
+        paper: '#FFFFFF'
+      }
+    },
   },
   plugins: [],
 }
