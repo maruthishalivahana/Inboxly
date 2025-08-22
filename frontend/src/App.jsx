@@ -77,6 +77,7 @@ export default function App() {
           <Route path="/profile" element={<Profile isDark={isDark} />} />
         </Routes>
       </div>
+
     </>
   );
 }
