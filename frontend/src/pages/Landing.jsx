@@ -1,5 +1,7 @@
 import React from 'react';
 import { Moon, Sun, Check, Star, MessageSquare, Shield, Zap, Settings, Globe, Users, Github, Twitter, Mail } from 'lucide-react';
+
+import { Menu, X } from "lucide-react";
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 // import banner from "./pages/banner.jpg"
@@ -43,6 +45,7 @@ const StarIcon = ({ filled = true }) => (
 const LandingPage = () => {
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   // SocialIcon component with access to isDark
   const SocialIcon = ({ children }) => (
@@ -144,27 +147,33 @@ const LandingPage = () => {
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <InboxlyLogo />
-            <span className="text-white text-xl font-bold">Inboxly</span>
+            <span className={`${isDark ? 'text-white' : 'text-black'} text-xl font-bold`}>Inboxly</span>
           </div>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden text-gray-500 hover:text-gray-900"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm">
-            <a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+            <a href="#features" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
               <Zap className="w-4 h-4" />
               Features
             </a>
-            <a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+            <a href="#pricing" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
               <Star className="w-4 h-4" />
               Pricing
             </a>
-            <a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+            <a href="#docs" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
               <MessageSquare className="w-4 h-4" />
               Docs
             </a>
-            <a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+            <a href="#company" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
               <Users className="w-4 h-4" />
               Company
             </a>
           </nav>
-          <div className="flex items-center gap-2 sm:gap-4 text-sm">
+          <div className="hidden md:flex items-center gap-2 sm:gap-4 text-sm">
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-md ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} transition-colors cursor-pointer`}
@@ -176,24 +185,63 @@ const LandingPage = () => {
                 <Moon className="w-5 h-5 text-slate-400" />
               )}
             </button>
-            <button onClick={() => navigate("/profile")} className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
+            <button
+              onClick={() => navigate("/profile")}
+              className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
             >
               Profile
             </button>
             <button
-              onClick={() => navigate('/auth')}
+              onClick={() => navigate("/auth")}
               className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
             >
               Sign In
             </button>
             <button
-              onClick={() => navigate('/auth')}
+              onClick={() => navigate("/auth")}
               className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-2 px-3 sm:px-4 rounded-md hover:opacity-90 transition-opacity text-sm cursor-pointer"
             >
               Get Started
             </button>
           </div>
         </div>
+        {menuOpen && (
+          <div className="md:hidden flex flex-col items-center gap-4 py-4">
+            <a href="#features" className="text-sm text-gray-500 hover:text-gray-900">Features</a>
+            <a href="#pricing" className="text-sm text-gray-500 hover:text-gray-900">Pricing</a>
+            <a href="#docs" className="text-sm text-gray-500 hover:text-gray-900">Docs</a>
+            <a href="#company" className="text-sm text-gray-500 hover:text-gray-900">Company</a>
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-md ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} transition-colors cursor-pointer`}
+              aria-label="Toggle theme"
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-slate-400" />
+              )}
+            </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
+              Profile
+            </button>
+            <button
+              onClick={() => navigate("/auth")}
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate("/auth")}
+              className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-2 px-3 rounded-md hover:opacity-90 transition-opacity text-sm cursor-pointer"
+            >
+              Get Started
+            </button>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
@@ -394,7 +442,7 @@ const LandingPage = () => {
               </button>
               <button
                 onClick={() => navigate('/docs')}
-                className={`${isDark ? 'bg-slate-800 text-slate-900 border-slate-700 hover:bg-slate-700' : 'bg-slate-200 text-slate-900 border-slate-300 hover:bg-slate-300'} font-semibold py-3 px-6 rounded-lg border transition-colors w-full sm:w-auto cursor-pointer`}
+                className={`${isDark ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700' : 'bg-slate-200 text-slate-900 border-slate-300 hover:bg-slate-300'} font-semibold py-3 px-6 rounded-lg border transition-colors w-full sm:w-auto cursor-pointer`}
               >
                 View Documentation
               </button>
