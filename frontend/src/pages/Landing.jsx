@@ -1,345 +1,536 @@
 import React from 'react';
+import { Moon, Sun, Check, Star, MessageSquare, Shield, Zap, Settings, Globe, Users, Github, Twitter, Mail } from 'lucide-react';
 
-// Landing Page Component
-const LandingPage=()=> {
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white py-20">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Connect. Communicate. <span className="text-yellow-300">Collaborate.</span>
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-            Experience the future of messaging with Inboxly – where seamless communication meets powerful collaboration tools.
-          </p>
-          <div className="space-x-4 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg">
-              Start Free Trial
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-300">
-              Watch Demo
-            </button>
-          </div>
+import { Menu, X } from "lucide-react";
+import { useTheme } from '../context/ThemeContext';
+import { useNavigate } from 'react-router-dom';
+// import banner from "./pages/banner.jpg"
+
+import banner from './banner.jpg';
+const IconWrapper = ({ children, className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={`w-6 h-6 ${className}`}
+  >
+    {children}
+  </svg>
+);
+
+// SVG Icon Components
+const InboxlyLogo = ({ className }) => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M14 0C6.268 0 0 6.268 0 14C0 21.732 6.268 28 14 28C21.732 28 28 21.732 28 14C28 6.268 21.732 0 14 0ZM21.238 8.792L14.448 19.642C14.21 19.994 13.79 19.994 13.552 19.642L6.762 8.792C6.562 8.505 6.79 8.05 7.14 8.05H8.484C8.75 8.05 9.002 8.218 9.118 8.47L14 18.004L18.882 8.47C18.998 8.218 19.25 8.05 19.516 8.05H20.86C21.21 8.05 21.438 8.505 21.238 8.792Z" fill="url(#logo-gradient)" />
+    <defs>
+      <linearGradient id="logo-gradient" x1="14" y1="0" x2="14" y2="28" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#A57BFF" />
+        <stop offset="1" stopColor="#8C52FF" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+const CheckIcon = () => (
+  <Check className="text-[#8C52FF] w-5 h-5 mr-3 flex-shrink-0 group-hover:scale-110 group-hover:text-[#A57BFF] transition-all duration-300" />
+);
+
+const StarIcon = ({ filled = true }) => (
+  <Star className={`w-5 h-5 ${filled ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600'}`} />
+);
+
+// SocialIcon component will be defined inside LandingPage component
+
+// Main Landing Page Component
+const LandingPage = () => {
+  const { isDark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  // SocialIcon component with access to isDark
+  const SocialIcon = ({ children }) => (
+    <a href="#" className={`${isDark ? 'text-slate-500 hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors cursor-pointer`}>
+      {children}
+    </a>
+  );
+  const features = {
+    messaging: [
+      { name: "Real-time Messaging" },
+      { name: "Push Notifications" },
+      { name: "Message Threads" },
+      { name: "Typing Indicators" },
+      { name: "Online Presence" },
+    ],
+    management: [
+      { name: "Custom Roles & Permissions" },
+      { name: "Moderation Tools" },
+      { name: "User & Group Management" },
+      { name: "Audit Logs" },
+      { name: "SSO & 2FA" },
+    ],
+    customization: [
+      { name: "Custom Themes & Branding" },
+      { name: "UI Components Library" },
+      { name: "Webhooks & Events" },
+      { name: "Custom Data Payloads" },
+      { name: "Serverless Functions" },
+    ],
+    integrations: [
+      { name: "REST & GraphQL APIs" },
+      { name: "Slack & Discord" },
+      { name: "Zendesk & Intercom" },
+      { name: "Segment & Mixpanel" },
+      { name: "Zapier & Make" },
+    ],
+    security: [
+      { name: "End-to-End Encryption" },
+      { name: "SOC 2 Type II Certified" },
+      { name: "GDPR & HIPAA Compliant" },
+      { name: "Data Residency Options" },
+      { name: "99.99% Uptime SLA" },
+    ],
+    scalability: [
+      { name: "Auto-scaling Infrastructure" },
+      { name: "Global Edge Network" },
+      { name: "Dedicated Clusters" },
+      { name: "Low-latency Media" },
+      { name: "Global CDN" },
+    ],
+  };
+
+  const testimonials = [
+    {
+      name: "Alex Thompson",
+      title: "CTO at Innovate Inc.",
+      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      review: "Inboxly has revolutionized our internal communication. The real-time messaging is incredibly fast and reliable. The developer-friendly API made integration a breeze. Highly recommended!",
+    },
+    {
+      name: "Samantha Carter",
+      title: "Product Manager at TechSolutions",
+      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      review: "We chose Inboxly for its robust feature set and scalability. The ability to customize the UI to match our brand was a huge plus. Our users love the new chat experience.",
+    },
+    {
+      name: "David Chen",
+      title: "Lead Developer at AppCrafters",
+      avatar: "https://randomuser.me/api/portraits/men/56.jpg",
+      review: "The documentation is top-notch, and the support team is very responsive. We were able to build our proof-of-concept in just a few days. Inboxly just works.",
+    },
+  ];
+
+  const CodeSnippet = ({ title, language, children }) => (
+    <div className={`${isDark ? 'bg-[#171C2A] border-slate-700' : 'bg-slate-100 border-slate-300'} border rounded-lg overflow-hidden`}>
+      <div className={`flex justify-between items-center px-4 py-2 ${isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-slate-200/50 border-slate-300'} border-b`}>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+          <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
         </div>
-      </section>
-
-      {/* Core Features Overview */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
-            Powerful Features for Modern Communication
-          </h2>
-          
-          {/* Messaging Features */}
-          <div className="mb-16">
-            <h3 className="text-3xl font-bold text-center mb-12 text-blue-600">💬 Advanced Messaging</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">👥</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Direct & Group Chats</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• 1:1 direct messaging</li>
-                  <li>• Unlimited group chats</li>
-                  <li>• Threaded replies</li>
-                  <li>• Message reactions 😊</li>
-                </ul>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">✏️</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Rich Text & Code</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Rich text formatting</li>
-                  <li>• Markdown support</li>
-                  <li>• Code snippets</li>
-                  <li>• Edit & delete messages</li>
-                </ul>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">👁️</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Live Indicators</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Typing indicators</li>
-                  <li>• Presence status</li>
-                  <li>• Read receipts</li>
-                  <li>• Delivery status</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Media & Attachments */}
-          <div className="mb-16">
-            <h3 className="text-3xl font-bold text-center mb-12 text-purple-600">📎 Media & Attachments</h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="text-4xl mb-4">📁</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">File Management</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• File and image uploads with instant previews</li>
-                  <li>• Local disk or S3-compatible storage</li>
-                  <li>• Automatic metadata extraction</li>
-                  <li>• Smart link previews</li>
-                </ul>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="text-4xl mb-4">🔗</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Smart Previews</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Rich link previews with thumbnails</li>
-                  <li>• Image gallery view</li>
-                  <li>• Document preview support</li>
-                  <li>• Metadata-rich attachments</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Real-time Features */}
-          <div>
-            <h3 className="text-3xl font-bold text-center mb-12 text-green-600">⚡ Real-time & Offline</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">🚀</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Lightning Speed</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Socket.IO WebSockets</li>
-                  <li>• Instant message delivery</li>
-                  <li>• Zero-delay updates</li>
-                  <li>• Real-time synchronization</li>
-                </ul>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">📱</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Offline Support</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Message queueing</li>
-                  <li>• Local caching</li>
-                  <li>• Auto-sync on reconnect</li>
-                  <li>• Seamless experience</li>
-                </ul>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">🔄</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Multi-Device Sync</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Cross-platform sync</li>
-                  <li>• Device continuity</li>
-                  <li>• Unified experience</li>
-                  <li>• Cloud synchronization</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Security & Integration Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
-            Enterprise-Grade Security & Integration
-          </h2>
-          
-          {/* Security Features */}
-          <div className="mb-16">
-            <h3 className="text-3xl font-bold text-center mb-12 text-red-600">🔐 Security & Moderation</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">🛡️</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">JWT Authentication</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Protected API endpoints</li>
-                  <li>• Secure token validation</li>
-                  <li>• Session management</li>
-                  <li>• Auto-refresh tokens</li>
-                </ul>
-              </div>
-              <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">👑</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Role-Based Access</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Admin controls</li>
-                  <li>• User permissions</li>
-                  <li>• Granular access</li>
-                  <li>• Security policies</li>
-                </ul>
-              </div>
-              <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-4xl mb-4">🛠️</div>
-                <h4 className="text-xl font-bold mb-4 text-gray-800">Content Moderation</h4>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• Content filters</li>
-                  <li>• Reporting system</li>
-                  <li>• Automated detection</li>
-                  <li>• Community guidelines</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Integration Features */}
-          <div>
-            <h3 className="text-3xl font-bold text-center mb-12 text-indigo-600">🔗 Integration & Extensibility</h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="text-4xl mb-4">🚀</div>
-                <h4 className="text-2xl font-bold mb-4 text-gray-800">Developer APIs</h4>
-                <ul className="text-gray-600 space-y-3">
-                  <li>• <span className="font-semibold">REST APIs</span> for all operations</li>
-                  <li>• <span className="font-semibold">GraphQL</span> support for flexible queries</li>
-                  <li>• <span className="font-semibold">Node.js & React SDKs</span> for easy integration</li>
-                  <li>• <span className="font-semibold">Direct embedding</span> with code-level hooks</li>
-                </ul>
-              </div>
-              <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="text-4xl mb-4">🤖</div>
-                <h4 className="text-2xl font-bold mb-4 text-gray-800">Plugins & Automation</h4>
-                <ul className="text-gray-600 space-y-3">
-                  <li>• <span className="font-semibold">Plugin system</span> for custom features</li>
-                  <li>• <span className="font-semibold">Bot integration</span> and automation</li>
-                  <li>• <span className="font-semibold">Webhooks</span> for external systems</li>
-                  <li>• <span className="font-semibold">CRM integration</span> and notifications</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Admin & Analytics Section */}
-      <section className="py-20 bg-gradient-to-r from-gray-50 via-blue-50 to-purple-50">
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">Admin & Analytics Dashboard</h2>
-            <p className="text-xl text-gray-600 mb-12 text-center leading-relaxed max-w-3xl mx-auto">
-              Comprehensive management tools and insights to help you understand and optimize your communication workflows.
-            </p>
-            
-            {/* Admin Features */}
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-5xl mb-4">👨‍💼</div>
-                <div className="text-2xl font-bold text-orange-600 mb-2">Admin Panel</div>
-                <ul className="text-gray-600 text-left space-y-2">
-                  <li>• User management</li>
-                  <li>• Conversation oversight</li>
-                  <li>• System configuration</li>
-                  <li>• Access controls</li>
-                </ul>
-              </div>
-              <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-5xl mb-4">📊</div>
-                <div className="text-2xl font-bold text-green-600 mb-2">Analytics</div>
-                <ul className="text-gray-600 text-left space-y-2">
-                  <li>• Message volume tracking</li>
-                  <li>• Active user metrics</li>
-                  <li>• Engagement insights</li>
-                  <li>• Performance reports</li>
-                </ul>
-              </div>
-              <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <div className="text-5xl mb-4">💾</div>
-                <div className="text-2xl font-bold text-purple-600 mb-2">Data Management</div>
-                <ul className="text-gray-600 text-left space-y-2">
-                  <li>• Export utilities</li>
-                  <li>• Backup systems</li>
-                  <li>• Data retention</li>
-                  <li>• Compliance tools</li>
-                </ul>
-              </div>
-            </div>
-            
-            {/* Key Metrics Display */}
-            <div className="grid md:grid-cols-4 gap-6 mt-16">
-              <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-l-4 border-blue-500">
-                <div className="text-3xl font-bold text-blue-600 mb-2">10M+</div>
-                <div className="text-gray-600 text-lg font-semibold">Messages Daily</div>
-                <div className="text-sm text-gray-500 mt-1">Processed</div>
-              </div>
-              <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-l-4 border-green-500">
-                <div className="text-3xl font-bold text-green-600 mb-2">50K+</div>
-                <div className="text-gray-600 text-lg font-semibold">Active Teams</div>
-                <div className="text-sm text-gray-500 mt-1">Monthly</div>
-              </div>
-              <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-l-4 border-purple-500">
-                <div className="text-3xl font-bold text-purple-600 mb-2">99.9%</div>
-                <div className="text-gray-600 text-lg font-semibold">Uptime</div>
-                <div className="text-sm text-gray-500 mt-1">Guaranteed</div>
-              </div>
-              <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-l-4 border-orange-500">
-                <div className="text-3xl font-bold text-orange-600 mb-2">50ms</div>
-                <div className="text-gray-600 text-lg font-semibold">Latency</div>
-                <div className="text-sm text-gray-500 mt-1">Average</div>
-              </div>
-            </div>
-            
-            {/* About Inboxly - Enhanced */}
-            <div className="mt-20 p-10 bg-white rounded-2xl shadow-xl">
-              <h3 className="text-3xl font-bold mb-6 text-center text-gray-800">About Inboxly</h3>
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                  <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                    Founded with a vision to revolutionize digital communication, Inboxly brings together the best of messaging, collaboration, and productivity tools in one seamless platform.
-                  </p>
-                  <p className="text-gray-600 text-lg leading-relaxed">
-                    We're committed to creating technology that brings people closer together, no matter where they are in the world. Our enterprise-grade features ensure your communication is secure, scalable, and efficient.
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <span className="text-blue-600 font-bold">🚀</span>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-800">Enterprise Ready</div>
-                      <div className="text-gray-600 text-sm">Built for scale and security</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                      <span className="text-green-600 font-bold">🌍</span>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-800">Global Reach</div>
-                      <div className="text-gray-600 text-sm">Supporting teams worldwide</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                      <span className="text-purple-600 font-bold">⚡</span>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-800">Lightning Fast</div>
-                      <div className="text-gray-600 text-sm">Real-time performance</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Transform Your Communication?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join millions of users who trust Inboxly for their messaging needs. Start your journey today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg">
-              Get Started Today
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transform hover:scale-105 transition-all duration-300">
-              Contact Sales
-            </button>
-          </div>
-        </div>
-      </section>
+        <p className="text-sm text-slate-400">{title}</p>
+        <button className="text-slate-400 hover:text-white">
+          <IconWrapper className="w-4 h-4">
+            <path d="M16.5 8.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h2.25m8.25-8.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-7.5A2.25 2.25 0 018.25 18v-1.5m8.25-8.25h-6.75a.75.75 0 00-.75.75v6.75a.75.75 0 00.75.75h6.75a.75.75 0 00.75-.75v-6.75a.75.75 0 00-.75-.75z" />
+          </IconWrapper>
+        </button>
+      </div>
+      <pre className="p-4 text-sm overflow-x-auto">
+        <code className={`language-${language}`}>{children}</code>
+      </pre>
     </div>
   );
-}
+
+  return (
+    <div className={`${isDark ? 'bg-[#0B0F19] text-slate-300' : 'bg-white text-slate-700'} font-poppins leading-relaxed transition-colors duration-300`}>
+      {/* Header */}
+      <header className={`py-4 border-b ${isDark ? 'border-slate-800 bg-[#0B0F19]/80' : 'border-slate-200 bg-white/80'} sticky top-0 backdrop-blur-md z-50 transition-colors duration-300`}>
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <InboxlyLogo />
+            <span className={`${isDark ? 'text-white' : 'text-black'} text-xl font-bold`}>Inboxly</span>
+          </div>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden text-gray-500 hover:text-gray-900"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm">
+            <a href="#features" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+              <Zap className="w-4 h-4" />
+              Features
+            </a>
+            <a href="#pricing" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+              <Star className="w-4 h-4" />
+              Pricing
+            </a>
+            <a href="#docs" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+              <MessageSquare className="w-4 h-4" />
+              Docs
+            </a>
+            <a href="#company" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
+              <Users className="w-4 h-4" />
+              Company
+            </a>
+          </nav>
+          <div className="hidden md:flex items-center gap-2 sm:gap-4 text-sm">
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-md ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} transition-colors cursor-pointer`}
+              aria-label="Toggle theme"
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-slate-400" />
+              )}
+            </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
+            >
+              Profile
+            </button>
+            <button
+              onClick={() => navigate("/auth")}
+              className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate("/auth")}
+              className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-2 px-3 sm:px-4 rounded-md hover:opacity-90 transition-opacity text-sm cursor-pointer"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+        {menuOpen && (
+          <div className="md:hidden flex flex-col items-center gap-4 py-4">
+            <a href="#features" className="text-sm text-gray-500 hover:text-gray-900">Features</a>
+            <a href="#pricing" className="text-sm text-gray-500 hover:text-gray-900">Pricing</a>
+            <a href="#docs" className="text-sm text-gray-500 hover:text-gray-900">Docs</a>
+            <a href="#company" className="text-sm text-gray-500 hover:text-gray-900">Company</a>
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-md ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} transition-colors cursor-pointer`}
+              aria-label="Toggle theme"
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-slate-400" />
+              )}
+            </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
+              Profile
+            </button>
+            <button
+              onClick={() => navigate("/auth")}
+              className="text-sm text-gray-500 hover:text-gray-900"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate("/auth")}
+              className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-2 px-3 rounded-md hover:opacity-90 transition-opacity text-sm cursor-pointer"
+            >
+              Get Started
+            </button>
+          </div>
+        )}
+      </header>
+
+      {/* Main Content */}
+      <main>
+        {/* Hero Section */}
+        <section className="py-20 md:py-32 text-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h1 className={`text-5xl md:text-7xl font-bold ${isDark ? 'text-white' : 'text-slate-900'} mb-6`}>
+                Inboxly is a Real-Time Messaging Inbox
+              </h1>
+              <p className={`text-lg md:text-xl ${isDark ? 'text-slate-400' : 'text-slate-600'} mb-10`}>
+                A new-gen suite for chat and messaging that has been created with developers and businesses in mind, ready for any scale.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 px-4">
+                <button
+                  onClick={() => navigate('/auth')}
+                  className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity w-full sm:w-auto cursor-pointer"
+                >
+                  Get Started for Free
+                </button>
+                <button
+                  onClick={() => navigate('/contact')}
+                  className={`${isDark ? 'bg-slate-800 text-white border-slate-700 hover:bg-slate-700' : 'bg-slate-200 text-slate-900 border-slate-300 hover:bg-slate-300'} font-semibold py-3 px-6 rounded-lg border transition-colors w-full sm:w-auto cursor-pointer`}
+                >
+                  Talk to Sales
+                </button>
+              </div>
+            </div>
+            <div className="mt-16">
+              {/* Placeholder for the product image. Replace with your actual image component or <img> tag. */}
+              <div className={`max-w-5xl mx-auto ${isDark ? 'bg-[#171C2A]/50 border-slate-700' : 'bg-slate-100 border-slate-300'} border rounded-xl shadow-2xl shadow-[#8C52FF]/10 p-2`}>
+                <div className="bg-cover bg-center h-58 md:h-96 rounded-lg" style={{ backgroundImage: `url(${banner})` }}>
+                  {/* The image is set via background for better control. You can use an <img> tag too. */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr className={`${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+
+        {/* Features Section */}
+        <section className={`py-20 ${isDark ? 'bg-gradient-to-b from-transparent to-[#171C2A]/20' : 'bg-gradient-to-b from-transparent to-slate-50/50'}`}>
+          <div className="container mx-auto px-4 relative">
+            {/* Subtle border around the section */}
+            <div className={`absolute inset-0 ${isDark ? 'border border-slate-800/20' : 'border border-slate-200/30'} rounded-3xl -z-10`}></div>
+            <div className="text-center mb-16">
+              <h2 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Everything you need for <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A57BFF] to-[#8C52FF]">modern messaging</span>
+              </h2>
+              <p className={`mt-4 max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                We've built a suite of tools for robust, real-time communication. All the features you need, none of the bloat.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 relative group">
+              {/* Decorative background elements */}
+              <div className={`absolute inset-0 ${isDark ? 'bg-[#171C2A]/5' : 'bg-slate-100/30'} rounded-3xl blur-3xl -z-10 group-hover:bg-opacity-20 transition-all duration-500`}></div>
+              {Object.entries(features).map(([category, items]) => (
+                <div
+                  key={category}
+                  className={`${isDark ? 'bg-[#171C2A] border-slate-600' : 'bg-white border-slate-300'} border rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group`}
+                >
+                  <h3 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 capitalize text-lg group-hover:text-[#8C52FF] transition-colors duration-300 flex items-center gap-2`}>
+                    {category === 'messaging' && <MessageSquare className="w-5 h-5" />}
+                    {category === 'management' && <Settings className="w-5 h-5" />}
+                    {category === 'customization' && <Zap className="w-5 h-5" />}
+                    {category === 'integrations' && <Globe className="w-5 h-5" />}
+                    {category === 'security' && <Shield className="w-5 h-5" />}
+                    {category === 'scalability' && <Users className="w-5 h-5" />}
+                    {category.replace(/([A-Z])/g, ' $1')}
+                  </h3>
+                  <ul className="space-y-3">
+                    {items.map((item, index) => (
+                      <li key={index} className={`flex items-center ${isDark ? 'text-slate-200' : 'text-slate-800'} transition-colors duration-300`}>
+                        <CheckIcon />
+                        <span className="group-hover:translate-x-1 transition-transform duration-300 font-medium">{item.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Quote Section */}
+        <section className={`py-20 ${isDark ? 'bg-[#171C2A]/30' : 'bg-slate-50'}`}>
+          <div className="container mx-auto px-4 text-center">
+            <InboxlyLogo className="mx-auto mb-6 h-12 w-12" />
+            <blockquote className="max-w-4xl mx-auto">
+              <p className={`text-2xl md:text-3xl font-medium ${isDark ? 'text-white' : 'text-slate-900'} italic`}>
+                “Inboxly is modern, secure, and extensible—a messaging inbox you can rely on, and simply connect with any channel.”
+              </p>
+              <footer className="mt-6">
+                <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Ryan Brooks, CEO and Co-founder of Inboxly</p>
+              </footer>
+            </blockquote>
+          </div>
+        </section>
+
+        {/* Developer Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Built for Developers</h2>
+              <p className={`mt-4 max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                Integrate robust, real-time messaging into your applications. Our APIs, SDKs, and webhooks make it easy.
+              </p>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-8 mb-8">
+              <CodeSnippet title="React hook / Realtime.jsx" language="jsx">
+                <span className="text-purple-400">import</span> {'{ useChannel }'} <span className="text-purple-400">from</span> <span className="text-green-400">'@inboxly/react'</span>;{'\n\n'}
+                <span className="text-purple-400">export const</span> <span className="text-yellow-300">Chat</span> = ({'{ channelName }'}) =&gt; {'{'}{'\n'}
+                {'  '}<span className="text-purple-400">const</span> [state, channel] = <span className="text-yellow-300">useChannel</span>(channelName);{'\n\n'}
+                {'  '}<span className="text-gray-500">// Display messages from the channel</span>{'\n'}
+                {'  '}<span className="text-purple-400">return</span> ({'\n'}
+                {'    '}<span className="text-blue-400">&lt;&gt;</span>{'\n'}
+                {'      '}{'{'}state.messages.map((<span className="text-orange-400">msg</span>) =&gt; {'\n'}
+                {'        '}&lt;div key={'{msg.id}'}&gt;{'{msg.text}'}&lt;/div&gt;{'\n'}
+                {'      '}){'}'}{'\n'}
+                {'    '}<span className="text-blue-400">&lt;/&gt;</span>{'\n'}
+                {'  '});{'\n'}
+                {'}'};
+              </CodeSnippet>
+              <CodeSnippet title="Webhook / Payload.json" language="json">
+                {'{'}{'\n'}
+                {'  '}<span className="text-blue-400">"type"</span>: <span className="text-green-400">"message.new"</span>,{'\n'}
+                {'  '}<span className="text-blue-400">"cid"</span>: <span className="text-green-400">"messaging:123"</span>,{'\n'}
+                {'  '}<span className="text-blue-400">"message"</span>: {'{'}{'\n'}
+                {'    '}<span className="text-blue-400">"id"</span>: <span className="text-green-400">"abc-123"</span>,{'\n'}
+                {'    '}<span className="text-blue-400">"text"</span>: <span className="text-green-400">"Hello, World!"</span>,{'\n'}
+                {'    '}<span className="text-blue-400">"user"</span>: {'{'}{'\n'}
+                {'      '}<span className="text-blue-400">"id"</span>: <span className="text-green-400">"user-1"</span>,{'\n'}
+                {'      '}<span className="text-blue-400">"name"</span>: <span className="text-green-400">"John Doe"</span>{'\n'}
+                {'    '}{'}'}{'\n'}
+                {'  '}{'}'}{'\n'}
+                {'}'}
+              </CodeSnippet>
+            </div>
+            <CodeSnippet title="RESTful API / Messages.sh" language="shell">
+              <span className="text-green-400">curl</span> -X POST \<br />
+              {'  '}<span className="text-blue-400">https://api.inboxly.com/v1/channels/general/message</span> \<br />
+              {'  '}-H <span className="text-green-400">'Content-Type: application/json'</span> \<br />
+              {'  '}-H <span className="text-green-400">'Authorization: Bearer YOUR_API_KEY'</span> \<br />
+              {'  '}-d '{'{'}<br />
+              {'    '}"text": "Your first message via the API!",<br />
+              {'    '}"user_id": "system"<br />
+              {'  '}{'}'}'
+            </CodeSnippet>
+          </div>
+        </section>
+
+        <hr className={`${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+
+        {/* Testimonials Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Trusted by teams worldwide</h2>
+              <p className={`mt-4 max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                Thousands of product teams from startups to Fortune 500 companies build their messaging with Inboxly.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className={`${isDark ? 'bg-[#171C2A] border-slate-800' : 'bg-white border-slate-200'} border rounded-lg p-6 shadow-lg`}>
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+                  </div>
+                  <p className={`${isDark ? 'text-slate-300' : 'text-slate-700'} mb-6`}>"{testimonial.review}"</p>
+                  <div className="flex items-center gap-4">
+                    <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full" />
+                    <div>
+                      <p className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>{testimonial.name}</p>
+                      <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{testimonial.title}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Start Building with Inboxly Today</h2>
+            <p className={`mt-4 max-w-2xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'} mb-8`}>
+              Create an account and start integrating real-time messaging in minutes.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 px-4">
+              <button
+                onClick={() => navigate('/auth')}
+                className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity w-full sm:w-auto cursor-pointer"
+              >
+                Get Started for Free
+              </button>
+              <button
+                onClick={() => navigate('/docs')}
+                className={`${isDark ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700' : 'bg-slate-200 text-slate-900 border-slate-300 hover:bg-slate-300'} font-semibold py-3 px-6 rounded-lg border transition-colors w-full sm:w-auto cursor-pointer`}
+              >
+                View Documentation
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className={`${isDark ? 'bg-[#171C2A]/30 border-slate-800' : 'bg-slate-50 border-slate-200'} border-t`}>
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-8">
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-3 mb-4">
+                <InboxlyLogo />
+                <span className={`${isDark ? 'text-white' : 'text-slate-900'} text-xl font-bold`}>Inboxly</span>
+              </div>
+              <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} text-sm max-w-xs`}>
+                The modern messaging platform for developers and businesses.
+              </p>
+            </div>
+            <div>
+              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
+                <Zap className="w-4 h-4" />
+                Product
+              </h4>
+              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Features</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Pricing</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Security</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Changelog</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
+                <Users className="w-4 h-4" />
+                Company
+              </h4>
+              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>About</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Careers</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Blog</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
+                <MessageSquare className="w-4 h-4" />
+                Support
+              </h4>
+              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Help Center</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Documentation</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>API Reference</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>System Status</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
+                <Globe className="w-4 h-4" />
+                Resources
+              </h4>
+              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Case Studies</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Community</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Webinars</a></li>
+                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Partners</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className={`mt-12 pt-8 border-t ${isDark ? 'border-slate-800' : 'border-slate-200'} flex flex-col sm:flex-row justify-between items-center`}>
+            <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} Inboxly, Inc. All rights reserved.</p>
+            <div className="flex gap-5 mt-4 sm:mt-0">
+              <SocialIcon>
+                <Twitter className="w-5 h-5" />
+              </SocialIcon>
+              <SocialIcon>
+                <Github className="w-5 h-5" />
+              </SocialIcon>
+              <SocialIcon>
+                <Mail className="w-5 h-5" />
+              </SocialIcon>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
 
 export default LandingPage;
