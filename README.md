@@ -77,9 +77,21 @@ Inboxly provides a modern, secure, and extensible messaging inbox that supports 
 │   ├── sockets/
 │   └── server.js
 ├── frontend/
+│   ├── assets/
 │   ├── components/
+│   |   ├── Footer.jsx
+│   |   ├── Navbar.jsx
+|   |   └── Profile.jsx
+│   ├── context/
+|   │   └── ThemeContext.jsx
 │   ├── pages/
-│   └── App.jsx
+│   │   ├── Auth.jsx
+│   │   ├── Landing.jsx
+│   │   └── Welcome.jsx
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
 ├── sdk/                     # Example SDKs for embedding (Node, React)
 ├── scripts/                 # Migration & backup scripts
 ├── plugins/                 # Optional plugin modules

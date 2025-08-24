@@ -1,10 +1,12 @@
 import React from 'react';
+import Footer from '../Components/Footer';
 import { Moon, Sun, Check, Star, MessageSquare, Shield, Zap, Settings, Globe, Users, Github, Twitter, Mail } from 'lucide-react';
 
 import { Menu, X } from "lucide-react";
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../App.jsx'; // Import the theme hook
+
 import { useNavigate } from 'react-router-dom';
-// import banner from "./pages/banner.jpg"
+// import banner from "../assets/banner.jpg"
 
 import banner from './banner.jpg';
 const IconWrapper = ({ children, className }) => (
@@ -142,107 +144,7 @@ const LandingPage = () => {
 
   return (
     <div className={`${isDark ? 'bg-[#0B0F19] text-slate-300' : 'bg-white text-slate-700'} font-poppins leading-relaxed transition-colors duration-300`}>
-      {/* Header */}
-      <header className={`py-4 border-b ${isDark ? 'border-slate-800 bg-[#0B0F19]/80' : 'border-slate-200 bg-white/80'} sticky top-0 backdrop-blur-md z-50 transition-colors duration-300`}>
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <InboxlyLogo />
-            <span className={`${isDark ? 'text-white' : 'text-black'} text-xl font-bold`}>Inboxly</span>
-          </div>
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-gray-500 hover:text-gray-900"
-          >
-            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm">
-            <a href="#features" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
-              <Zap className="w-4 h-4" />
-              Features
-            </a>
-            <a href="#pricing" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
-              <Star className="w-4 h-4" />
-              Pricing
-            </a>
-            <a href="#docs" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
-              <MessageSquare className="w-4 h-4" />
-              Docs
-            </a>
-            <a href="#company" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer flex items-center gap-2`}>
-              <Users className="w-4 h-4" />
-              Company
-            </a>
-          </nav>
-          <div className="hidden md:flex items-center gap-2 sm:gap-4 text-sm">
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-md ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} transition-colors cursor-pointer`}
-              aria-label="Toggle theme"
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-slate-400" />
-              )}
-            </button>
-            <button
-              onClick={() => navigate("/profile")}
-              className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
-            >
-              Profile
-            </button>
-            <button
-              onClick={() => navigate("/auth")}
-              className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors hidden sm:block cursor-pointer text-sm bg-transparent border-none p-0`}
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => navigate("/auth")}
-              className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-2 px-3 sm:px-4 rounded-md hover:opacity-90 transition-opacity text-sm cursor-pointer"
-            >
-              Get Started
-            </button>
-          </div>
-        </div>
-        {menuOpen && (
-          <div className="md:hidden flex flex-col items-center gap-4 py-4">
-            <a href="#features" className="text-sm text-gray-500 hover:text-gray-900">Features</a>
-            <a href="#pricing" className="text-sm text-gray-500 hover:text-gray-900">Pricing</a>
-            <a href="#docs" className="text-sm text-gray-500 hover:text-gray-900">Docs</a>
-            <a href="#company" className="text-sm text-gray-500 hover:text-gray-900">Company</a>
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-md ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} transition-colors cursor-pointer`}
-              aria-label="Toggle theme"
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-slate-400" />
-              )}
-            </button>
-            <button
-              onClick={() => navigate("/profile")}
-              className="text-sm text-gray-500 hover:text-gray-900"
-            >
-              Profile
-            </button>
-            <button
-              onClick={() => navigate("/auth")}
-              className="text-sm text-gray-500 hover:text-gray-900"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => navigate("/auth")}
-              className="bg-gradient-to-r from-[#A57BFF] to-[#8C52FF] text-white font-semibold py-2 px-3 rounded-md hover:opacity-90 transition-opacity text-sm cursor-pointer"
-            >
-              Get Started
-            </button>
-          </div>
-        )}
-      </header>
+    
 
       {/* Main Content */}
       <main>
@@ -285,7 +187,7 @@ const LandingPage = () => {
         <hr className={`${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
 
         {/* Features Section */}
-        <section className={`py-20 ${isDark ? 'bg-gradient-to-b from-transparent to-[#171C2A]/20' : 'bg-gradient-to-b from-transparent to-slate-50/50'}`}>
+        <section id='features' className={`py-20 ${isDark ? 'bg-gradient-to-b from-transparent to-[#171C2A]/20' : 'bg-gradient-to-b from-transparent to-slate-50/50'}`}>
           <div className="container mx-auto px-4 relative">
             {/* Subtle border around the section */}
             <div className={`absolute inset-0 ${isDark ? 'border border-slate-800/20' : 'border border-slate-200/30'} rounded-3xl -z-10`}></div>
@@ -344,7 +246,7 @@ const LandingPage = () => {
         </section>
 
         {/* Developer Section */}
-        <section className="py-20">
+        <section id='docs' className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Built for Developers</h2>
@@ -452,83 +354,7 @@ const LandingPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className={`${isDark ? 'bg-[#171C2A]/30 border-slate-800' : 'bg-slate-50 border-slate-200'} border-t`}>
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-8">
-            <div className="lg:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <InboxlyLogo />
-                <span className={`${isDark ? 'text-white' : 'text-slate-900'} text-xl font-bold`}>Inboxly</span>
-              </div>
-              <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} text-sm max-w-xs`}>
-                The modern messaging platform for developers and businesses.
-              </p>
-            </div>
-            <div>
-              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
-                <Zap className="w-4 h-4" />
-                Product
-              </h4>
-              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Features</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Pricing</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Security</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Changelog</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
-                <Users className="w-4 h-4" />
-                Company
-              </h4>
-              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>About</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Careers</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Blog</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
-                <MessageSquare className="w-4 h-4" />
-                Support
-              </h4>
-              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Help Center</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Documentation</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>API Reference</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>System Status</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} mb-4 flex items-center gap-2`}>
-                <Globe className="w-4 h-4" />
-                Resources
-              </h4>
-              <ul className={`space-y-3 text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Case Studies</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Community</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Webinars</a></li>
-                <li><a href="#" className={`${isDark ? 'hover:text-white' : 'hover:text-slate-900'} transition-colors cursor-pointer`}>Partners</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className={`mt-12 pt-8 border-t ${isDark ? 'border-slate-800' : 'border-slate-200'} flex flex-col sm:flex-row justify-between items-center`}>
-            <p className="text-sm text-slate-500">&copy; {new Date().getFullYear()} Inboxly, Inc. All rights reserved.</p>
-            <div className="flex gap-5 mt-4 sm:mt-0">
-              <SocialIcon>
-                <Twitter className="w-5 h-5" />
-              </SocialIcon>
-              <SocialIcon>
-                <Github className="w-5 h-5" />
-              </SocialIcon>
-              <SocialIcon>
-                <Mail className="w-5 h-5" />
-              </SocialIcon>
-            </div>
-          </div>
-        </div>
-      </footer>
+<Footer />
     </div>
   );
 };
