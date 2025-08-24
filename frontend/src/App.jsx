@@ -6,6 +6,7 @@ import LandingPage from "./pages/Landing.jsx";
 import Auth from "./pages/Auth.jsx";
 import Navbar from "./Components/Navbar.jsx";
 import "./App.css";
+import Footer from "./Components/Footer.jsx";
 
 export default function App() {
   const [isDark, setIsDark] = useState(true);
@@ -45,6 +46,7 @@ export default function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="*" element={<div className="text-center p-4">Page not found</div>} />
       </Routes>
+      <Footer isDark={isDark} toggleTheme={toggleTheme} />
     </div>
   );
 }
