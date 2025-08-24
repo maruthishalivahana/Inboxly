@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTheme } from '../App.jsx'; // Import the theme hook
 
-function Profile({ isDark = true }) {
+function Profile() {
+	const { isDark } = useTheme(); // Use centralized theme
+	
 	const emptyProfile = {
 		fullName: '',
 		headline: '',

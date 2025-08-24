@@ -72,15 +72,15 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Header */}
-      <header className={`
+      {/* nav */}
+      <nav className={`
         py-4 border-b sticky top-0 backdrop-blur-md z-50 transition-all duration-300
         ${isDark 
           ? 'border-slate-800 bg-[#0B0F19]/90 shadow-lg shadow-slate-900/20' 
-          : 'border-slate-200 bg-white/90 shadow-sm shadow-slate-900/5'
+          : 'border-slate-200 bg-white/50 shadow-sm shadow-slate-900/5'
         }
       `}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             
             {/* Logo - Clickable to go home */}
@@ -190,7 +190,7 @@ const Navbar = () => {
         {menuOpen && (
           <div className={`
             md:hidden border-t transition-all duration-300 ease-in-out
-            ${isDark ? 'border-slate-800 bg-[#0B0F19]/95' : 'border-slate-200 bg-white/95'}
+            ${isDark ? 'border-slate-800 bg-[#0B0F19]/95' : 'border-slate-200 bg-white/75'}
             backdrop-blur-md
           `}>
             <div className="container mx-auto px-4 py-6">
@@ -271,7 +271,7 @@ const Navbar = () => {
             </div>
           </div>
         )}
-      </header>
+      </nav>
 
       {/* Mobile Menu Overlay */}
       {menuOpen && (

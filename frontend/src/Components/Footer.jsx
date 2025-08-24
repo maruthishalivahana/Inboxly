@@ -1,6 +1,6 @@
 import React from "react";
-import { Moon, Sun, Check, Star, MessageSquare, Shield, Zap, Settings, Globe, Users, Github, Twitter, Mail } from 'lucide-react';
-import { useTheme } from '../App.jsx'; // Import the theme hook
+import { Github, Twitter, Mail, Zap, Users, MessageSquare, Globe } from 'lucide-react';
+import { useTheme } from '../App.jsx';
 
 // InboxlyLogo Component
 const InboxlyLogo = ({ className }) => (
@@ -15,34 +15,8 @@ const InboxlyLogo = ({ className }) => (
   </svg>
 );
 
-// SocialIcon Component
-const SocialIcon = ({ children, href = "#" }) => {
-  const { isDark } = useTheme(); // Use centralized theme
-
-  return (
-    <a
-      href={href}
-      className={`
-        w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200
-        ${isDark 
-          ? 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white' 
-          : 'bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 shadow-sm'
-        }
-        hover:scale-110 hover:shadow-lg
-      `}
-    >
-      {children}
-    </a>
-  );
-};
-
 const Footer = () => {
-  const { isDark } = useTheme(); // Use centralized theme
-
-  const linkHoverClass = isDark ? 'hover:text-white' : 'hover:text-slate-900';
-  const textSecondary = isDark ? 'text-slate-400' : 'text-slate-600';
-  const textPrimary = isDark ? 'text-white' : 'text-slate-900';
-  const borderColor = isDark ? 'border-slate-800' : 'border-slate-200';
+  const { isDark } = useTheme();
 
   const footerSections = [
     {
@@ -52,7 +26,6 @@ const Footer = () => {
         { name: "Features", href: "#" },
         { name: "Pricing", href: "#" },
         { name: "Security", href: "#" },
-        { name: "Changelog", href: "#" },
         { name: "Integrations", href: "#" }
       ]
     },
@@ -63,7 +36,6 @@ const Footer = () => {
         { name: "About", href: "#" },
         { name: "Careers", href: "#" },
         { name: "Blog", href: "#" },
-        { name: "Press Kit", href: "#" },
         { name: "Contact", href: "#" }
       ]
     },
@@ -73,7 +45,6 @@ const Footer = () => {
       links: [
         { name: "Help Center", href: "#" },
         { name: "Documentation", href: "#" },
-        { name: "API Reference", href: "#" },
         { name: "System Status", href: "#" },
         { name: "Community", href: "#" }
       ]
@@ -83,7 +54,6 @@ const Footer = () => {
       icon: <Globe className="w-4 h-4" />,
       links: [
         { name: "Case Studies", href: "#" },
-        { name: "Webinars", href: "#" },
         { name: "Templates", href: "#" },
         { name: "Partners", href: "#" },
         { name: "Developers", href: "#" }
@@ -93,81 +63,74 @@ const Footer = () => {
 
   return (
     <footer className={`
-      ${isDark 
-        ? 'bg-gradient-to-b from-slate-900/50 to-slate-900/80 border-slate-800' 
-        : 'bg-gradient-to-b from-slate-50 to-white border-slate-200'
+      ${isDark
+        ? 'bg-slate-900 border-slate-800'
+        : 'bg-slate-50 border-slate-200'
       } 
-      border-t backdrop-blur-sm
+      border-t
     `}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="py-12 lg:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12">
-            
-            {/* Brand Section - Takes full width on mobile, 2 cols on desktop */}
-            <div className="md:col-span-2 lg:col-span-2">
-              <div className="flex items-center gap-3 mb-6">
-                <InboxlyLogo />
-                <span className={`${textPrimary} text-xl font-bold`}>
-                  Inboxly
-                </span>
-              </div>
-              <p className={`${textSecondary} text-sm leading-relaxed max-w-sm mb-6`}>
-                The modern messaging platform built for developers and businesses. 
-                Connect, collaborate, and communicate seamlessly across teams.
-              </p>
-              
-              {/* Newsletter Signup */}
-              <div className="space-y-3">
-                <p className={`${textPrimary} font-medium text-sm`}>
-                  Stay updated
-                </p>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className={`
-                      flex-1 px-4 py-2 rounded-lg text-sm border transition-colors
-                      ${isDark 
-                        ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400 focus:border-blue-500' 
-                        : 'bg-white border-slate-300 text-slate-900 placeholder-slate-500 focus:border-blue-500'
-                      }
-                      focus:outline-none focus:ring-2 focus:ring-blue-500/20
-                    `}
-                  />
-                  <button className={`
-                    px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                    bg-gradient-to-r from-blue-500 to-purple-600 text-white
-                    hover:from-blue-600 hover:to-purple-700 hover:shadow-lg
-                    focus:outline-none focus:ring-2 focus:ring-blue-500/20
-                    whitespace-nowrap
-                  `}>
-                    Subscribe
-                  </button>
-                </div>
-              </div>
-            </div>
+      <div className="container mx-auto px-2 py-4">
 
-            {/* Footer Links - Each takes 1 column */}
+        {/* Single Grid Layout for All Screen Sizes */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-4">
+
+          {/* Brand Section - Takes full width on mobile, 2 columns on large screens */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-4">
+              <InboxlyLogo />
+              <span className={`${isDark ? 'text-white' : 'text-slate-900'} text-xl font-bold`}>
+                Inboxly
+              </span>
+            </div>
+            <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} text-sm leading-relaxed mb-6`}>
+              The modern messaging platform built for developers and businesses.
+              Connect, collaborate, and communicate seamlessly across teams.
+            </p>
+
+            {/* Newsletter Signup */}
+            {/* <div className="space-y-3">
+              <p className={`${isDark ? 'text-white' : 'text-slate-900'} font-medium text-sm`}>
+                Stay updated
+              </p>
+              <div className="flex flex-col gap-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className={`
+                    px-4 py-2 rounded-lg text-sm border transition-colors
+                    ${isDark 
+                      ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-400 focus:border-blue-500' 
+                      : 'bg-white border-slate-300 text-slate-900 placeholder-slate-500 focus:border-blue-500'
+                    }
+                    focus:outline-none focus:ring-2 focus:ring-blue-500/20
+                  `}
+                />
+                <button className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                  Subscribe
+                </button>
+              </div>
+            </div> */}
+          </div>
+          <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-6">
+            {/* Footer Links - Each section takes 1 column */}
             {footerSections.map((section, index) => (
-              <div key={index} className="space-y-4">
-                <h4 className={`
-                  font-semibold ${textPrimary} text-sm
-                  flex items-center gap-2
-                `}>
+              <div key={index} className="lg:col-span-1">
+                <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-slate-900'} text-sm mb-3 flex items-center gap-2`}>
                   {section.icon}
                   {section.title}
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {section.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
                       <a
                         href={link.href}
                         className={`
-                          text-sm ${textSecondary} ${linkHoverClass} 
-                          transition-colors duration-200 cursor-pointer
-                          hover:translate-x-1 transform transition-transform
-                        `}
+                        text-sm transition-colors
+                        ${isDark
+                            ? 'text-slate-400 hover:text-white'
+                            : 'text-slate-600 hover:text-slate-900'
+                          }
+                      `}
                       >
                         {link.name}
                       </a>
@@ -181,24 +144,22 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className={`
-          py-6 border-t ${borderColor}
-          flex flex-col sm:flex-row justify-between items-center gap-4
+          pt-6 border-t flex flex-col sm:flex-row justify-between items-center gap-4
+          ${isDark ? 'border-slate-800' : 'border-slate-200'}
         `}>
-          
-          {/* Copyright */}
+          {/* Copyright and Legal Links */}
           <div className="flex flex-col sm:flex-row items-center gap-4 text-sm">
-            <p className={`${textSecondary} text-center sm:text-left`}>
+            <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               © {new Date().getFullYear()} Inboxly, Inc. All rights reserved.
             </p>
-            <div className="hidden sm:block w-px h-4 bg-slate-400"></div>
             <div className="flex items-center gap-4 text-xs">
-              <a href="#" className={`${textSecondary} ${linkHoverClass} transition-colors`}>
+              <a href="#" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
                 Privacy Policy
               </a>
-              <a href="#" className={`${textSecondary} ${linkHoverClass} transition-colors`}>
+              <a href="#" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
                 Terms of Service
               </a>
-              <a href="#" className={`${textSecondary} ${linkHoverClass} transition-colors`}>
+              <a href="#" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
                 Cookies
               </a>
             </div>
@@ -206,25 +167,47 @@ const Footer = () => {
 
           {/* Social Icons */}
           <div className="flex items-center gap-3">
-            <SocialIcon href="https://twitter.com/inboxly">
+            <a
+              href="https://twitter.com/inboxly"
+              className={`
+                w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200
+                ${isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white'
+                  : 'bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 shadow-sm'
+                }
+                hover:scale-110 hover:shadow-lg
+              `}
+            >
               <Twitter className="w-4 h-4" />
-            </SocialIcon>
-            <SocialIcon href="https://github.com/inboxly">
+            </a>
+            <a
+              href="https://github.com/inboxly"
+              className={`
+                w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200
+                ${isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white'
+                  : 'bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 shadow-sm'
+                }
+                hover:scale-110 hover:shadow-lg
+              `}
+            >
               <Github className="w-4 h-4" />
-            </SocialIcon>
-            <SocialIcon href="mailto:hello@inboxly.com">
+            </a>
+            <a
+              href="mailto:hello@inboxly.com"
+              className={`
+                w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200
+                ${isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white'
+                  : 'bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 shadow-sm'
+                }
+                hover:scale-110 hover:shadow-lg
+              `}
+            >
               <Mail className="w-4 h-4" />
-            </SocialIcon>
+            </a>
           </div>
         </div>
-      </div>
-
-      {/* Background Pattern (Optional) */}
-      <div className="absolute inset-0 pointer-events-none opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%), 
-                           radial-gradient(circle at 75% 75%, #8b5cf6 0%, transparent 50%)`
-        }}></div>
       </div>
     </footer>
   );
