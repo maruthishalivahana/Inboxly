@@ -120,7 +120,7 @@ const Navbar = () => {
                   key={link.href}
                   onClick={() => handleNavigation(link.href)}
                   className={`
-                    flex items-center gap-2 transition-all duration-200 cursor-pointer
+                    flex items-center gap-2 transition-all duration-200 cursor-pointer active:text-blue-500 active:scale-95
                     ${isDark 
                       ? 'text-slate-300 hover:text-white' 
                       : 'text-slate-600 hover:text-slate-900'
@@ -200,7 +200,7 @@ const Navbar = () => {
                     key={link.href}
                     onClick={() => handleMobileNavClick(link.href)}
                     className={`
-                      flex items-center gap-3 p-3 rounded-lg transition-all duration-200 cursor-pointer text-left w-full
+                      flex items-center gap-3 p-3 rounded-lg transition-all duration-200 cursor-pointer text-left w-full active:text-blue-500 active:scale-95
                       ${isDark 
                         ? 'text-slate-300 hover:text-white hover:bg-slate-800/50' 
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'

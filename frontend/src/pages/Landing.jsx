@@ -187,7 +187,7 @@ const LandingPage = () => {
         <hr className={`${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
 
         {/* Features Section */}
-        <section className={`py-20 ${isDark ? 'bg-gradient-to-b from-transparent to-[#171C2A]/20' : 'bg-gradient-to-b from-transparent to-slate-50/50'}`}>
+        <section id='features' className={`py-20 ${isDark ? 'bg-gradient-to-b from-transparent to-[#171C2A]/20' : 'bg-gradient-to-b from-transparent to-slate-50/50'}`}>
           <div className="container mx-auto px-4 relative">
             {/* Subtle border around the section */}
             <div className={`absolute inset-0 ${isDark ? 'border border-slate-800/20' : 'border border-slate-200/30'} rounded-3xl -z-10`}></div>
@@ -246,7 +246,7 @@ const LandingPage = () => {
         </section>
 
         {/* Developer Section */}
-        <section className="py-20">
+        <section id='docs' className="py-20">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>Built for Developers</h2>

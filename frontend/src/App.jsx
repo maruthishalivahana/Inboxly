@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState, createContext, useContext } from "react";
 import Profile from "./Components/Profile.jsx";
 import WelcomeScreen from "./pages/Welcome.jsx";
