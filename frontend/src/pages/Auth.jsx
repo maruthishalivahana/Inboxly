@@ -15,32 +15,27 @@ const GoogleIcon = () => (
         ></path>
     </svg>
 );
-
 const GithubIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
         <path d="M8 0C3.58 0 0 3.58..."></path>
     </svg>
 );
-
 // --- Main Component ---
 export default function Auth() {
     const [isLoginView, setIsLoginView] = useState(true);
     const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "User" });
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
-
-    // Handle form inputs
+     // Handle form inputs
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    // Handle submit
+     // Handle submit
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setMsg("");
-
-        try {
-            const url = isLoginView ? "/api/auth/login" : "/api/auth/register";
-            const payload = isLoginView
+       try {
+            const url =isLoginView?"/api/auth/login":"/api/auth/register";
+            const payload =isLoginView
                 ? { email: formData.email, password: formData.password }
                 : formData;
 
@@ -49,6 +44,7 @@ export default function Auth() {
             });
 
             setMsg(res.data.message || "Success!");
+           localStorage.setItem("accessToken",res.data.access)
             console.log("User Data:", res.data.user); // you can store in context/localstorage
         } catch (err) {
             setMsg(err.response?.data?.message || "Something went wrong");
