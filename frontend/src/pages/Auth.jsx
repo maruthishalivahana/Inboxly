@@ -1,73 +1,143 @@
-// src/pages/Auth.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Auth = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+// --- Main Component ---
+export default function Auth() {
+    const [isLoginView, setIsLoginView] = useState(true);
+    const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "User" });
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState("");
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    // Handle form inputs
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    // Handle submit (for real backend)
+    const handleSubmit = (e) => {
         e.preventDefault();
+        alert("Submit called — connect to backend here if needed.");
+    };
 
-        // Demo-only (no backend)
-        if (email && password) {
-            // Save demo user in localStorage
-            localStorage.setItem("demoUser", JSON.stringify({ email }));
+    // --- Demo Login (mock) ---
+    const handleDemoLogin = () => {
+        setLoading(true);
+        setMsg("");
+        setError(null);
 
-            // Redirect to Welcome page
+        setTimeout(() => {
+            const demoUser = { name: "Demo User", email: "demo@example.com" };
+            localStorage.setItem("demoUser", JSON.stringify(demoUser));
+            setMsg("Logged in as Demo User!");
+            setLoading(false);
             navigate("/welcome");
-        } else {
-            alert("Please enter email & password");
-        }
+        }, 1000); // simulate loading
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-                    Demo Login
-                </h2>
-                <form onSubmit={handleLogin} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                            placeholder="Enter your email"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                            placeholder="Enter your password"
-                            required
-                        />
-                    </div>
+        <div className="min-h-screen bg-slate-900 text-white font-sans flex items-center justify-center p-4">
+            <div className="w-full max-w-4xl min-h-[520px] bg-slate-800 rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
+                {/* Left Branding */}
+                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-slate-900/50">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-10 text-purple-500">Inboxly</h1>
+                    <p className="text-slate-300 text-lg mb-6">
+                        The open-source messenger platform for seamless team and product communication.
+                    </p>
+                </div>
+
+                {/* Right Panel */}
+                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                    <h2 className="text-3xl font-bold mb-2">
+                        {isLoginView ? "Welcome Back" : "Create an Account"}
+                    </h2>
+                    <p className="text-slate-400 mb-6">
+                        {isLoginView ? "Log in to continue" : "Start your journey with Inboxly"}
+                    </p>
+
+                    {error && <p className="mb-4 text-sm text-center text-red-400">{error}</p>}
+                    {msg && <p className="mb-4 text-sm text-center text-green-400">{msg}</p>}
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {!isLoginView && (
+                            <>
+                                <div>
+                                    <label className="block text-sm mb-1">Full Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg"
+                                        placeholder="John Doe"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm mb-1">Role</label>
+                                    <select
+                                        name="role"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-3 pr-3 bg-slate-700 border border-slate-600 rounded-lg"
+                                    >
+                                        <option>User</option>
+                                        <option>Admin</option>
+                                    </select>
+                                </div>
+                            </>
+                        )}
+
+                        <div>
+                            <label className="block text-sm mb-1">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg"
+                                placeholder="you@example.com"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm mb-1">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg"
+                                placeholder="••••••••"
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold"
+                        >
+                            {loading ? "Processing..." : isLoginView ? "Log In" : "Create Account"}
+                        </button>
+                    </form>
+
+                    {/* --- Demo Login Button --- */}
                     <button
-                        type="submit"
-                        className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition"
+                        onClick={handleDemoLogin}
+                        disabled={loading}
+                        className="mt-4 w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold"
                     >
-                        Login
+                        {loading ? "Logging in..." : "Demo Login"}
                     </button>
-                </form>
-                <p className="mt-4 text-sm text-gray-600 text-center">
-                    Demo mode — any email & password works 🚀
-                </p>
+
+                    <p className="text-center text-sm text-slate-400 mt-6">
+                        {isLoginView ? "Don't have an account?" : "Already have an account?"}{" "}
+                        <button
+                            type="button"
+                            onClick={() => setIsLoginView(!isLoginView)}
+                            className="text-blue-400 hover:underline"
+                        >
+                            {isLoginView ? "Sign Up" : "Log In"}
+                        </button>
+                    </p>
+                </div>
             </div>
         </div>
     );
-};
-
-export default Auth;
+}
