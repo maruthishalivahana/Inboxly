@@ -1,25 +1,50 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-// --- Main Component ---
 export default function Auth() {
     const [isLoginView, setIsLoginView] = useState(true);
-    const [formData, setFormData] = useState({ name: "", email: "", password: "", role: "User" });
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        role: "User",
+    });
     const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState("");
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     // Handle form inputs
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    // Handle submit (for real backend)
-    const handleSubmit = (e) => {
+    // Handle submit (real backend)
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert("Submit called — connect to backend here if needed.");
+        setLoading(true);
+        setMsg("");
+        setError(null);
+
+        try {
+            const url = isLoginView ? "/api/auth/login" : "/api/auth/register";
+            const payload = isLoginView
+                ? { email: formData.email, password: formData.password }
+                : formData;
+
+            const res = await axios.post(url, payload, { withCredentials: true });
+            setMsg(res.data.message || "Success!");
+            localStorage.setItem("accessToken", res.data.access);
+            console.log("User Data:", res.data.user);
+            navigate("/dashboard");
+        } catch (err) {
+            setError(err.response?.data?.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    // --- Demo Login (mock) ---
+    // Demo login (mock)
     const handleDemoLogin = () => {
         setLoading(true);
         setMsg("");
@@ -31,7 +56,7 @@ export default function Auth() {
             setMsg("Logged in as Demo User!");
             setLoading(false);
             navigate("/welcome");
-        }, 1000); // simulate loading
+        }, 1000);
     };
 
     return (
@@ -39,9 +64,12 @@ export default function Auth() {
             <div className="w-full max-w-4xl min-h-[520px] bg-slate-800 rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden">
                 {/* Left Branding */}
                 <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-slate-900/50">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-10 text-purple-500">Inboxly</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-10 text-purple-500">
+                        Inboxly
+                    </h1>
                     <p className="text-slate-300 text-lg mb-6">
-                        The open-source messenger platform for seamless team and product communication.
+                        The open-source messenger platform for seamless team and product
+                        communication.
                     </p>
                 </div>
 
@@ -51,11 +79,17 @@ export default function Auth() {
                         {isLoginView ? "Welcome Back" : "Create an Account"}
                     </h2>
                     <p className="text-slate-400 mb-6">
-                        {isLoginView ? "Log in to continue" : "Start your journey with Inboxly"}
+                        {isLoginView
+                            ? "Log in to continue"
+                            : "Start your journey with Inboxly"}
                     </p>
 
-                    {error && <p className="mb-4 text-sm text-center text-red-400">{error}</p>}
-                    {msg && <p className="mb-4 text-sm text-center text-green-400">{msg}</p>}
+                    {error && (
+                        <p className="mb-4 text-sm text-center text-red-400">{error}</p>
+                    )}
+                    {msg && (
+                        <p className="mb-4 text-sm text-center text-green-400">{msg}</p>
+                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {!isLoginView && (
@@ -117,7 +151,7 @@ export default function Auth() {
                         </button>
                     </form>
 
-                    {/* --- Demo Login Button --- */}
+                    {/* Demo Login */}
                     <button
                         onClick={handleDemoLogin}
                         disabled={loading}
