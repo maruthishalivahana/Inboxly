@@ -149,8 +149,8 @@ const finduser=async (req,res) => {
 const Edituser=async (req,res) => {
     // const {id}=req.params;
 try {
-    const {nemail,nname}=req.body;
-    if(!(nemail||nname)){
+    const {nemail,nname,Headline,About,Location,Webside}=req.body;
+    if(!(nemail||nname||Headline||About||Location||Webside)){
     return res.status(400).json({ message:"fill one of them" });
     
     }
@@ -158,6 +158,14 @@ try {
     const updateField={};
     if(nname)updateField.name=nname;
     if(nemail)updateField.email=nemail;
+    // if(Photo)updateField.email=nemail;
+    if(Headline)updateField.headline=Headline;
+    if(About)updateField.about=About;
+    if(Location)updateField.location=Location;
+    if(Webside)updateField.webside=Webside;
+
+
+
     const user=await User.findByIdAndUpdate(req.user._id,{
         $set:updateField
      },{new:true})

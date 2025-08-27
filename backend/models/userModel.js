@@ -5,7 +5,15 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["user", "admin"], default: "user" },
+
+      // Optional profile fields
+  photo: { type: String, default: "" }, 
+  headline: { type: String, default: "" },
+  about: { type: String, default: "" },
+  location: { type: String, default: "" },
+  website: { type: String, default: "" },
+  
+    role: { type: String, enum: ["User", "Admin"], default: "user" },
     refreshToken:{type:String}
 
 }, { collection: "users" });
