@@ -1,11 +1,14 @@
+// src/components/Sidebar.jsx
 import React, { useState } from "react";
 import { useWorkspace } from "../context/WorkspaceContext";
-import { Folder, Hash, MessageCircle, UserPlus } from "lucide-react";
+import { Folder, Hash, MessageCircle, UserPlus, PlusCircle } from "lucide-react";
 
 const Sidebar = () => {
-    const { workspace, activeChannel, setActiveChannel } = useWorkspace();
+    const { workspace, activeChannel, setActiveChannel, addChannel } = useWorkspace();
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [inviteEmail, setInviteEmail] = useState("");
+    const [newChannel, setNewChannel] = useState("");
+    const [showAddChannel, setShowAddChannel] = useState(false);
 
     if (!workspace) {
         return (
@@ -18,10 +21,16 @@ const Sidebar = () => {
 
     const handleInvite = () => {
         if (!inviteEmail) return;
-        // 👉 Future backend integration here
         console.log(`Invited ${inviteEmail} to ${workspace.title}`);
         setInviteEmail("");
         setShowInviteModal(false);
+    };
+
+    const handleAddChannel = () => {
+        if (!newChannel.trim()) return;
+        addChannel(workspace.title, newChannel.trim());
+        setNewChannel("");
+        setShowAddChannel(false);
     };
 
     return (
@@ -29,7 +38,7 @@ const Sidebar = () => {
             {/* Workspace Header */}
             <div className="p-4 font-bold text-xl border-b border-slate-700 flex items-center">
                 <Folder size={20} className="mr-3 text-purple-400" />
-                {workspace.title}
+                {workspace.name}
             </div>
 
             {/* Invite Button */}
@@ -43,20 +52,29 @@ const Sidebar = () => {
                 </button>
             </div>
 
-            {/* Channels */}
+            {/* Channels Header */}
             <div className="p-3 flex items-center justify-between text-slate-300">
                 <span className="flex items-center font-semibold">
                     <Hash size={18} className="mr-2" /> Channels
                 </span>
+                <button
+                    onClick={() => setShowAddChannel(true)}
+                    className="hover:text-white"
+                    title="Add Channel"
+                >
+                    <PlusCircle size={18} />
+                </button>
             </div>
+
+            {/* Channels List */}
             <div className="px-4 py-2 space-y-1">
                 {workspace.channels.map((channel) => (
                     <button
                         key={channel}
                         onClick={() => setActiveChannel(channel)}
                         className={`w-full text-left block py-1.5 px-3 rounded-md transition-colors text-slate-300 ${activeChannel === channel
-                                ? "bg-purple-600 text-white font-semibold"
-                                : "hover:bg-slate-700"
+                            ? "bg-purple-600 text-white font-semibold"
+                            : "hover:bg-slate-700"
                             }`}
                     >
                         <span className="flex items-center">
@@ -103,6 +121,36 @@ const Sidebar = () => {
                                 className="px-3 py-1 rounded bg-purple-600 hover:bg-purple-500 text-white font-semibold"
                             >
                                 Invite
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add Channel Modal */}
+            {showAddChannel && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-slate-900 p-6 rounded-lg w-80">
+                        <h2 className="text-lg font-bold mb-4 text-white">Add Channel</h2>
+                        <input
+                            type="text"
+                            placeholder="Enter channel name..."
+                            value={newChannel}
+                            onChange={(e) => setNewChannel(e.target.value)}
+                            className="w-full p-2 rounded bg-slate-800 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                        <div className="flex justify-end space-x-2 mt-4">
+                            <button
+                                onClick={() => setShowAddChannel(false)}
+                                className="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleAddChannel}
+                                className="px-3 py-1 rounded bg-purple-600 hover:bg-purple-500 text-white font-semibold"
+                            >
+                                Add
                             </button>
                         </div>
                     </div>

@@ -170,7 +170,7 @@ const Navbar = () => {
                 profile
               </button>
               <button
-                onClick={() => handleNavigation("/homepage")}
+                onClick={() => handleNavigation("/auth")}
                 className={`
                   px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer
                   ${isDark

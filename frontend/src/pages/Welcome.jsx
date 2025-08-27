@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+// src/pages/Welcome.jsx
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWorkspace } from "../context/WorkspaceContext";
-import WorkspaceModal from "../components/WorkspaceModal"; // ✅ import modal
+import WorkspaceModal from "../components/WorkspaceModal";
 
 const workspaceTemplates = [
   {
@@ -44,22 +45,36 @@ const workspaceTemplates = [
 
 const Welcome = () => {
   const navigate = useNavigate();
-  const { selectWorkspace, createCustomWorkspace } = useWorkspace();
-
+  const { workspaces, workspace, selectWorkspace, createCustomWorkspace } = useWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [navigateToHomepage, setNavigateToHomepage] = useState(false);
+
+  // ✅ Navigate after workspace updates
+  useEffect(() => {
+    if (navigateToHomepage && workspace) {
+      navigate("/homepage");
+      setNavigateToHomepage(false);
+    }
+  }, [workspace, navigate, navigateToHomepage]);
 
   const handleSelectTemplate = (template) => {
-    selectWorkspace(template);
-    navigate("/homepage");
-  };
+    const ws = {
+      title: template.name,
+      channels: template.channels,
+      messages: template.channels.reduce((acc, ch) => {
+        acc[ch] = [];
+        return acc;
+      }, {}),
+      icon: template.icon,
+    };
 
-  const handleCreateCustom = () => {
-    setIsModalOpen(true); // ✅ instead of creating immediately, open modal
+    createCustomWorkspace(ws); // Update context
+    setNavigateToHomepage(true); // Trigger navigation after workspace is set
   };
 
   const handleModalCreate = (newWorkspace) => {
-    createCustomWorkspace(newWorkspace);
-    navigate("/homepage");
+    createCustomWorkspace(newWorkspace); // Update context
+    setNavigateToHomepage(true); // Trigger navigation after workspace is set
   };
 
   return (
@@ -71,14 +86,37 @@ const Welcome = () => {
             Welcome to <span className="text-purple-400">Inboxly</span>
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Create a new workspace from scratch or get started with one of our popular templates.
+            Create a new workspace or select one of your existing workspaces.
           </p>
         </header>
+
+        {/* Existing Workspaces */}
+        {workspaces.length > 0 && (
+          <div className="mb-10">
+            <h2 className="text-2xl font-bold mb-4 text-center">Your Workspaces</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {workspaces.map((ws, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    selectWorkspace(ws);
+                    setNavigateToHomepage(true);
+                  }}
+                  className="cursor-pointer bg-slate-800 rounded-xl p-6 text-center hover:bg-purple-700 transition-colors"
+                >
+                  <div className="text-4xl mb-2">{ws.icon}</div>
+                  <h3 className="font-bold text-lg">{ws.title}</h3>
+                  <p className="text-sm text-slate-400 mt-1">{ws.channels.length} channels</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Create Custom Workspace */}
         <div className="text-center mb-16">
           <button
-            onClick={handleCreateCustom}
+            onClick={() => setIsModalOpen(true)}
             className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
           >
             + Create a Custom Workspace
@@ -91,7 +129,6 @@ const Welcome = () => {
           <div className="w-24 h-1 bg-purple-500 mx-auto rounded-full"></div>
         </div>
 
-        {/* Templates Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {workspaceTemplates.map((template, index) => (
             <div
@@ -100,18 +137,16 @@ const Welcome = () => {
             >
               <div className="p-6 flex-grow">
                 <div className="text-4xl mb-4">{template.icon}</div>
-                <h3 className="text-xl font-bold text-slate-100 mb-2">
-                  {template.name}
-                </h3>
+                <h3 className="text-xl font-bold text-slate-100 mb-2">{template.name}</h3>
                 <p className="text-slate-400 mb-4 text-sm">{template.description}</p>
-
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-300 mb-2">
-                    Channels Included:
-                  </h4>
+                  <h4 className="text-sm font-semibold text-slate-300 mb-2">Channels Included:</h4>
                   <div className="flex flex-wrap gap-2">
                     {template.channels.map((ch, i) => (
-                      <span key={i} className="bg-slate-700 text-slate-300 text-xs font-medium px-2.5 py-1 rounded-full">
+                      <span
+                        key={i}
+                        className="bg-slate-700 text-slate-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                      >
                         {ch}
                       </span>
                     ))}
@@ -131,7 +166,7 @@ const Welcome = () => {
         </div>
       </div>
 
-      {/* Modal for custom workspace */}
+      {/* Workspace Modal */}
       <WorkspaceModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

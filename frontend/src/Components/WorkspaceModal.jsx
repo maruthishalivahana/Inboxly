@@ -1,3 +1,4 @@
+// src/components/WorkspaceModal.jsx
 import React, { useState } from "react";
 
 const WorkspaceModal = ({ isOpen, onClose, onCreate }) => {
@@ -8,9 +9,19 @@ const WorkspaceModal = ({ isOpen, onClose, onCreate }) => {
         e.preventDefault();
         if (!name.trim()) return;
 
+        const channelList = channels
+            .split(",")
+            .map((ch) => ch.trim())                          // remove extra spaces
+            .filter(Boolean)                                 // remove empty strings
+            .map((ch) => (ch.startsWith("#") ? ch : `#${ch}`)); // add # if missing
+
+        const messages = {};
+        channelList.forEach((ch) => (messages[ch] = []));
+
         const newWorkspace = {
-            name,
-            channels: channels.split(",").map((ch) => ch.trim()).filter(Boolean),
+            title: name,
+            channels: channelList,
+            messages,
             icon: "✨",
         };
 
@@ -20,24 +31,22 @@ const WorkspaceModal = ({ isOpen, onClose, onCreate }) => {
         onClose();
     };
 
+
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            {/* Overlay */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                 onClick={onClose}
             ></div>
 
-            {/* Modal */}
             <div className="relative bg-slate-800 rounded-2xl shadow-xl w-full max-w-md p-6 z-10">
                 <h2 className="text-2xl font-bold text-white mb-4 text-center">
                     Create New Workspace
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Workspace Name */}
                     <div>
                         <label className="block text-sm font-medium text-slate-300 mb-1">
                             Workspace Name
@@ -51,7 +60,6 @@ const WorkspaceModal = ({ isOpen, onClose, onCreate }) => {
                         />
                     </div>
 
-                    {/* Channels */}
                     <div>
                         <label className="block text-sm font-medium text-slate-300 mb-1">
                             Channels (comma-separated)
@@ -65,7 +73,6 @@ const WorkspaceModal = ({ isOpen, onClose, onCreate }) => {
                         />
                     </div>
 
-                    {/* Buttons */}
                     <div className="flex justify-end gap-3 pt-2">
                         <button
                             type="button"
