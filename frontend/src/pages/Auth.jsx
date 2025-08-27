@@ -34,6 +34,7 @@ export default function Auth() {
         setLoading(true);
         setMsg("");
        try {
+        
             const url =isLoginView?"/api/auth/login":"/api/auth/register";
             const payload =isLoginView
                 ? { email: formData.email, password: formData.password }
